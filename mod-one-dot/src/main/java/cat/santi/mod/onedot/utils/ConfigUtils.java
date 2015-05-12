@@ -8,9 +8,17 @@ import android.graphics.Color;
  */
 public class ConfigUtils {
 
+    // Direction
+
+    public static final int UP = 1;
+    public static final int DOWN = 2;
+    public static final int LEFT = 4;
+    public static final int RIGHT = 8;
+    public static final int ALL = 15;
+
     // OneDotView
 
-    public static final int TARGET_CYCLES_PER_SECOND = 30;
+    public static final int TARGET_CYCLES_PER_SECOND = 60;
 
     public static final int SIZE_DOT_SMALL = 1;
     public static final int SIZE_DOT_MEDIUM = 2;
@@ -48,6 +56,8 @@ public class ConfigUtils {
 
     public static final int DURATION_MIN = 5;
     public static final int DURATION_MAX = 30;
+
+    public static final int DIRECTION = UP | LEFT | RIGHT;
 
     private ConfigUtils() {
         // Declare private constructor to thwart instantiation

@@ -66,6 +66,8 @@ public class OneDotView extends FrameLayout {
     private static final boolean SHOW_TOUCHES_IN_DEBUG_MODE = ConfigUtils.SHOW_TOUCHES_IN_DEBUG_MODE;
     private static final boolean SHOW_FPS_IN_DEBUG_MODE = ConfigUtils.SHOW_FPS_IN_DEBUG_MODE;
 
+    private static final int DIRECTION = ConfigUtils.DIRECTION;
+
     // Default attribute values
 
     private static final int DEF_SCORE = ConfigUtils.DEF_SCORE;
@@ -332,7 +334,8 @@ public class OneDotView extends FrameLayout {
     }
 
     public void generateDot(float x, float y) {
-        mEntities.add(new Dot(new PointF(x, y), SIZE_DOT_MEDIUM, new AIModuleImpl(GENERATED_MOVEMENT_COUNT)));
+        AIModuleImpl aiModuleImpl = DIRECTION == ConfigUtils.ALL ? new AIModuleImpl(GENERATED_MOVEMENT_COUNT) : new AIModuleImpl(GENERATED_MOVEMENT_COUNT, DIRECTION);
+        mEntities.add(new Dot(new PointF(x, y), SIZE_DOT_LARGE, aiModuleImpl));
         if (isDebug())
             Log.v(TAG, "A dot was generated");
     }
@@ -399,12 +402,13 @@ public class OneDotView extends FrameLayout {
     }
 
     private void process(double delta) {
-        if (mSurfaceRect != null)
-            for (int index = mEntities.size() - 1; index >= 0; index--)
-                if (mEntities.get(index).shouldBeRemoved())
-                    mEntities.remove(index);
-                else
-                    mEntities.get(index).process(mSurfaceRect, delta);
+        if (mSurfaceRect == null) return;
+        
+        for (int index = mEntities.size() - 1; index >= 0; index--)
+            if (mEntities.get(index).shouldBeRemoved())
+                mEntities.remove(index);
+            else
+                mEntities.get(index).process(mSurfaceRect, delta);
     }
 
     private void updateFPS(int fps) {

@@ -5,6 +5,7 @@ import java.util.Queue;
 
 import cat.santi.mod.onedot.ai.AIModule;
 import cat.santi.mod.onedot.ai.movements.Movement;
+import cat.santi.mod.onedot.ai.movements.impl.Directioned;
 import cat.santi.mod.onedot.utils.RandomUtils;
 
 /**
@@ -18,6 +19,11 @@ public class AIModuleImpl implements
     public AIModuleImpl(int actionCount) {
         actionCount = ensureActionCount(actionCount);
         init(createMovementsArray(actionCount));
+    }
+
+    public AIModuleImpl(int actionCount, int direction) {
+        actionCount = ensureActionCount(actionCount);
+        init(createMovementsArray(actionCount, direction));
     }
 
     @SuppressWarnings("unused")
@@ -46,6 +52,13 @@ public class AIModuleImpl implements
         Movement[] movements = new Movement[actionCount];
         for(int index = 0 ; index < actionCount ; index++)
             movements[index] = RandomUtils.nextMovement();
+        return movements;
+    }
+
+    private Movement[] createMovementsArray(int actionCount, int direction) {
+        Movement[] movements = new Movement[actionCount];
+        for(int index = 0 ; index < actionCount ; index++)
+            movements[index] = new Directioned(direction);
         return movements;
     }
 

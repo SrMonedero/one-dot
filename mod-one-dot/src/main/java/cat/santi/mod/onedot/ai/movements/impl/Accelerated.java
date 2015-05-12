@@ -5,9 +5,9 @@ import cat.santi.mod.onedot.utils.RandomUtils;
 /**
  *
  */
-public class Turn extends AbstractMovement {
+public class Accelerated extends AbstractMovement {
 
-    public Turn() {
+    public Accelerated() {
         super(
                 RandomUtils.nextVelocity(VELOCITY_MIN, VELOCITY_MAX),
                 RandomUtils.nextVelocity(VELOCITY_MIN, VELOCITY_MAX),

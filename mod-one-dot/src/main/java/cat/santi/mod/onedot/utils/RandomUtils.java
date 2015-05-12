@@ -8,7 +8,7 @@ import java.util.Random;
 
 import cat.santi.mod.onedot.ai.movements.Movement;
 import cat.santi.mod.onedot.ai.movements.impl.Straight;
-import cat.santi.mod.onedot.ai.movements.impl.Turn;
+import cat.santi.mod.onedot.ai.movements.impl.Accelerated;
 import cat.santi.mod.onedot.ai.movements.impl.Wait;
 
 /**
@@ -25,7 +25,7 @@ public class RandomUtils {
         MOVEMENT_LIST = new ArrayList<>();
         MOVEMENT_LIST.add(Wait.class);
         MOVEMENT_LIST.add(Straight.class);
-        MOVEMENT_LIST.add(Turn.class);
+        MOVEMENT_LIST.add(Accelerated.class);
     }
 
     private RandomUtils() {
