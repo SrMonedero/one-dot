@@ -14,6 +14,12 @@ public class SurfaceUtils {
         // Declare a private constructor to thwart instantiation
     }
 
+    public static Point generateRandomBottomPoint(Rect boundaries) {
+        return new Point(
+                RandomUtils.getRandom().nextInt(boundaries.right - boundaries.left) + boundaries.left,
+                boundaries.bottom);
+    }
+
     public static Point generateRandomPoint(Rect boundaries) {
         return new Point(
                 RandomUtils.getRandom().nextInt(boundaries.right - boundaries.left) + boundaries.left,

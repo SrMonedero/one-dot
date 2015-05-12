@@ -27,7 +27,7 @@ public class ConfigUtils {
     public static final float SURFACE_PADDING = 20f;
 
     public static final int GENERATED_MOVEMENT_COUNT = 20;
-    public static final long GENERATED_DOTS_FREQ = 1000000000;
+    public static final long GENERATED_DOTS_FREQ = 500000000;
 
     public static final boolean SHOW_TOUCHES_IN_DEBUG_MODE = false;
     public static final boolean SHOW_FPS_IN_DEBUG_MODE = false;

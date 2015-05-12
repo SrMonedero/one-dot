@@ -344,6 +344,11 @@ public class OneDotView extends FrameLayout {
         generateDot(point.x, point.y);
     }
 
+    public void generateBottomDot() {
+        final Point point = SurfaceUtils.generateRandomBottomPoint(mSurfaceRect);
+        generateDot(point.x, point.y);
+    }
+
     public void generateDot(float x, float y) {
         AIModuleImpl aiModuleImpl = DIRECTION == ConfigUtils.ALL ? new AIModuleImpl(GENERATED_MOVEMENT_COUNT) : new AIModuleImpl(GENERATED_MOVEMENT_COUNT, DIRECTION);
         mEntities.add(new Dot(new PointF(x, y), SIZE_DOT_LARGE, aiModuleImpl));
@@ -430,7 +435,7 @@ public class OneDotView extends FrameLayout {
             mAccumDelta += delta * ONE_SEC_NANOS / TARGET_CYCLES_PER_SECOND;
             if (mAccumDelta > GENERATED_DOTS_FREQ) {
                 mAccumDelta = 0;
-                generateDot();
+                generateBottomDot();
             }
         }
     }
