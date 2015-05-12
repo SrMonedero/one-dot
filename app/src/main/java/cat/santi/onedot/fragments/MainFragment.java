@@ -116,7 +116,7 @@ public class MainFragment extends Fragment implements
     }
 
     private boolean actionRestart() {
-        mOneDotView.newGame(10);
+        mOneDotView.newGame();
         return true;
     }
 

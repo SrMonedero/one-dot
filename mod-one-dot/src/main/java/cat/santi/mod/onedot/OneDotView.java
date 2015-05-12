@@ -50,6 +50,9 @@ public class OneDotView extends FrameLayout {
     // CONSTANTS
     //////////////////////////////////////////////////
 
+    private final long ONE_SEC_MILLIS = 1000l;
+    private final long ONE_SEC_NANOS = (long) Math.pow(ONE_SEC_MILLIS, 3);
+
     private static final int TARGET_CYCLES_PER_SECOND = ConfigUtils.TARGET_CYCLES_PER_SECOND;
 
     @SuppressWarnings("unused")
@@ -62,6 +65,7 @@ public class OneDotView extends FrameLayout {
     private static final float SURFACE_PADDING = ConfigUtils.SURFACE_PADDING;
 
     private static final int GENERATED_MOVEMENT_COUNT = ConfigUtils.GENERATED_MOVEMENT_COUNT;
+    private static final long GENERATED_DOTS_FREQ = ConfigUtils.GENERATED_DOTS_FREQ;
 
     private static final boolean SHOW_TOUCHES_IN_DEBUG_MODE = ConfigUtils.SHOW_TOUCHES_IN_DEBUG_MODE;
     private static final boolean SHOW_FPS_IN_DEBUG_MODE = ConfigUtils.SHOW_FPS_IN_DEBUG_MODE;
@@ -85,6 +89,8 @@ public class OneDotView extends FrameLayout {
     private List<Entity> mEntities;
     private PointF mThumbPoint;
     private Paint mThumbPaint;
+    private long mAccumDelta;
+    private boolean mPreventGeneration;
 
     // View fields
 
@@ -255,6 +261,10 @@ public class OneDotView extends FrameLayout {
 
     // View accessors
 
+    public void newGame() {
+        newGame(0);
+    }
+
     public void newGame(int dots) {
         newGame(dots, null);
     }
@@ -270,6 +280,7 @@ public class OneDotView extends FrameLayout {
         if (seed != null)
             RandomUtils.setSeed(seed);
 
+        mPreventGeneration = false;
         setScore(0);
         clearEntities();
         generateDots(dots);
@@ -391,6 +402,9 @@ public class OneDotView extends FrameLayout {
         // Begin looping
         mGameLoop.start();
 
+        mAccumDelta = 0;
+        mPreventGeneration = true;
+
         if (isDebug())
             Log.v(TAG, ">> GAME VIEW CREATED <<");
     }
@@ -403,12 +417,22 @@ public class OneDotView extends FrameLayout {
 
     private void process(double delta) {
         if (mSurfaceRect == null) return;
-        
+
+        //remove entities to be removed and move the rest
         for (int index = mEntities.size() - 1; index >= 0; index--)
             if (mEntities.get(index).shouldBeRemoved())
                 mEntities.remove(index);
             else
                 mEntities.get(index).process(mSurfaceRect, delta);
+
+        //add new entities
+        if (!mPreventGeneration && GENERATED_DOTS_FREQ > 0) {
+            mAccumDelta += delta * ONE_SEC_NANOS / TARGET_CYCLES_PER_SECOND;
+            if (mAccumDelta > GENERATED_DOTS_FREQ) {
+                mAccumDelta = 0;
+                generateDot();
+            }
+        }
     }
 
     private void updateFPS(int fps) {
@@ -486,9 +510,6 @@ public class OneDotView extends FrameLayout {
     }
 
     private class GameLoop extends Thread {
-
-        private final long ONE_SEC_MILLIS = 1000l;
-        private final long ONE_SEC_NANOS = (long) Math.pow(ONE_SEC_MILLIS, 3);
 
         private final long OPTIMAL_TIME = ONE_SEC_NANOS / TARGET_CYCLES_PER_SECOND;
 
