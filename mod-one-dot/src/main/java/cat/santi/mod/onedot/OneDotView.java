@@ -8,6 +8,8 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.annotation.NonNull;
@@ -438,6 +440,15 @@ public class OneDotView extends FrameLayout {
                 generateBottomDot();
             }
         }
+
+        if (checkDotOnTop())
+            if (mCallbacks != null)
+                new Handler(Looper.getMainLooper()).post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mCallbacks.onGameEnd(mScore);
+                    }
+                });
     }
 
     private void updateFPS(int fps) {
@@ -470,9 +481,19 @@ public class OneDotView extends FrameLayout {
             mCallbacks.onScoreChanged(score, delta);
     }
 
+    private boolean checkDotOnTop() {
+        for (Entity entity : mEntities)
+            if (entity instanceof Dot)
+                if (entity.getPosition().y <= mSurfaceRect.top)
+                    return true;
+        return false;
+    }
+
     public interface OneDotCallbacks {
 
         void onScoreChanged(int score, int delta);
+
+        void onGameEnd(int score);
     }
 
     private static class SavedState extends BaseSavedState {

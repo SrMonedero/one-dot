@@ -133,6 +133,12 @@ public class MainFragment extends Fragment implements
         Log.d(TAG, "Total score: " + score);
     }
 
+    @Override
+    public void onGameEnd(int score) {
+        Toast.makeText(getActivity(), String.valueOf(score), Toast.LENGTH_LONG).show();
+        actionStop();
+    }
+
     // Just for debug purposes
     @SuppressWarnings("unused")
     private void toast(String message) {
