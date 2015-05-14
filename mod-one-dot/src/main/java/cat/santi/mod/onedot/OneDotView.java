@@ -272,9 +272,6 @@ public class OneDotView extends FrameLayout {
     }
 
     public void newGame(int dots, Long seed) {
-        if (mSurfaceRect == null)
-            throw new IllegalStateException("A new game can not be started before creation of" +
-                    "view layout");
 
         if (isDebug())
             Log.v(TAG, "Creating a new game...");
@@ -342,11 +339,17 @@ public class OneDotView extends FrameLayout {
     }
 
     public void generateDot() {
+        if (mSurfaceRect == null)
+            throw new IllegalStateException("A new game can not be started before creation of" +
+                    "view layout");
         final Point point = SurfaceUtils.generateRandomPoint(mSurfaceRect);
         generateDot(point.x, point.y);
     }
 
     public void generateBottomDot() {
+        if (mSurfaceRect == null)
+            throw new IllegalStateException("A new game can not be started before creation of" +
+                    "view layout");
         final Point point = SurfaceUtils.generateRandomBottomPoint(mSurfaceRect);
         generateDot(point.x, point.y);
     }
