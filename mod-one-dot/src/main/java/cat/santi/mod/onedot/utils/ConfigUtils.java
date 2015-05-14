@@ -24,7 +24,7 @@ public class ConfigUtils {
     public static final int SIZE_DOT_MEDIUM = 2;
     public static final int SIZE_DOT_LARGE = 5;
 
-    public static final float SURFACE_PADDING = 20f;
+    public static final float SURFACE_PADDING = 0f;
 
     public static final int GENERATED_MOVEMENT_COUNT = 20;
     public static final long GENERATED_DOTS_FREQ = 500000000;
