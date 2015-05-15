@@ -437,7 +437,7 @@ public class OneDotView extends FrameLayout {
 
         //remove entities to be removed and move the rest
         for (int index = mEntities.size() - 1; index >= 0; index--)
-            if (mEntities.get(index).shouldBeRemoved())
+            if (mEntities.get(index) == null || mEntities.get(index).shouldBeRemoved())
                 mEntities.remove(index);
             else
                 mEntities.get(index).process(mSurfaceRect, delta);
