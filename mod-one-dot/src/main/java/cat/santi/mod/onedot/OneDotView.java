@@ -12,7 +12,6 @@ import android.os.Handler;
 import android.os.Looper;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -26,6 +25,7 @@ import cat.santi.mod.onedot.entities.Entity;
 import cat.santi.mod.onedot.entities.Killable;
 import cat.santi.mod.onedot.entities.impl.Dot;
 import cat.santi.mod.onedot.entities.impl.Skull;
+import cat.santi.mod.onedot.entities.impl.Square;
 import cat.santi.mod.onedot.managers.BitmapManager;
 import cat.santi.mod.onedot.managers.ManagerFactory;
 import cat.santi.mod.onedot.utils.ConfigUtils;
@@ -160,7 +160,7 @@ public class OneDotView extends FrameLayout {
     }
 
     @Override
-    public boolean onTouchEvent(@NonNull MotionEvent event) {
+    public boolean onTouchEvent(MotionEvent event) {
         // Ignore touches when paused or destroyed
         if (mGameLoop != null && (mGameLoop.isPaused() || mGameLoop.isCancelled()))
             return false;
@@ -346,17 +346,24 @@ public class OneDotView extends FrameLayout {
         generateDot(point.x, point.y);
     }
 
-    public void generateBottomDot() {
+    public void generateBottomSquare() {
         if (mSurfaceRect == null)
             throw new IllegalStateException("A new game can not be started before creation of" +
                     "view layout");
         final Point point = SurfaceUtils.generateRandomBottomPoint(mSurfaceRect);
-        generateDot(point.x, point.y);
+        generateSquare(point.x, point.y);
     }
 
     public void generateDot(float x, float y) {
         AIModuleImpl aiModuleImpl = DIRECTION == ConfigUtils.ALL ? new AIModuleImpl(GENERATED_MOVEMENT_COUNT) : new AIModuleImpl(GENERATED_MOVEMENT_COUNT, DIRECTION);
         mEntities.add(new Dot(new PointF(x, y), SIZE_DOT_LARGE, aiModuleImpl));
+        if (isDebug())
+            Log.v(TAG, "A dot was generated");
+    }
+
+    public void generateSquare(float x, float y) {
+        AIModuleImpl aiModuleImpl = DIRECTION == ConfigUtils.ALL ? new AIModuleImpl(GENERATED_MOVEMENT_COUNT) : new AIModuleImpl(GENERATED_MOVEMENT_COUNT, DIRECTION);
+        mEntities.add(new Square(new PointF(x, y), SIZE_DOT_LARGE, aiModuleImpl));
         if (isDebug())
             Log.v(TAG, "A dot was generated");
     }
@@ -440,7 +447,7 @@ public class OneDotView extends FrameLayout {
             mAccumDelta += delta * ONE_SEC_NANOS / TARGET_CYCLES_PER_SECOND;
             if (mAccumDelta > GENERATED_DOTS_FREQ) {
                 mAccumDelta = 0;
-                generateBottomDot();
+                generateBottomSquare();
             }
         }
 
@@ -530,7 +537,7 @@ public class OneDotView extends FrameLayout {
         }
 
         @Override
-        public void writeToParcel(@NonNull Parcel out, int flags) {
+        public void writeToParcel(Parcel out, int flags) {
             super.writeToParcel(out, flags);
             out.writeInt(this.score);
             out.writeInt(this.surface);

@@ -13,6 +13,9 @@ import android.graphics.Rect;
 public abstract class AbstractEntity implements
         Entity {
 
+    protected static final int CIRCLE = 0;
+    protected static final int SQUARE = 1;
+
     protected PointF mPosition;
 
     private float mSize;
@@ -47,16 +50,32 @@ public abstract class AbstractEntity implements
     }
 
     protected void drawInternal(Canvas canvas) {
-        drawInternal(canvas, null);
+        drawInternal(canvas, null, CIRCLE);
     }
 
     protected void drawInternal(Canvas canvas, Bitmap bitmap) {
+        drawInternal(canvas, bitmap, CIRCLE);
+    }
+
+    protected void drawInternal(Canvas canvas, Bitmap bitmap, int shape) {
         if (bitmap != null) {
             int w = bitmap.getScaledWidth(canvas);
             int h = bitmap.getScaledHeight(canvas);
             canvas.drawBitmap(bitmap, mPosition.x - (w / 2), mPosition.y - (h / 2), mPaint);
         } else {
-            canvas.drawCircle(mPosition.x, mPosition.y, mSize, mPaint);
+            switch (shape) {
+                case CIRCLE:
+                    canvas.drawCircle(mPosition.x, mPosition.y, mSize, mPaint);
+                    break;
+                case SQUARE:
+
+                    float left = mPosition.x - mSize;
+                    float top = mPosition.y - mSize;
+                    float right = mPosition.x + mSize;
+                    float bottom = mPosition.y + mSize;
+                    canvas.drawRect(left, top, right, bottom, mPaint);
+            }
+
         }
     }
 
