@@ -24,6 +24,7 @@ import cat.santi.mod.onedot.ai.impl.AIModuleImpl;
 import cat.santi.mod.onedot.entities.Entity;
 import cat.santi.mod.onedot.entities.Killable;
 import cat.santi.mod.onedot.entities.impl.Dot;
+import cat.santi.mod.onedot.entities.impl.GreenBlood;
 import cat.santi.mod.onedot.entities.impl.Skull;
 import cat.santi.mod.onedot.entities.impl.Square;
 import cat.santi.mod.onedot.managers.BitmapManager;
@@ -328,7 +329,7 @@ public class OneDotView extends FrameLayout {
         if (isDebug())
             Log.v(TAG, "Dot smashed!");
         addScore(dot.getScore());
-        generateSkull(dot.getPosition().x, dot.getPosition().y);
+        generateGreenBlood(dot.getPosition().x, dot.getPosition().y);
     }
 
     public void addScore(int score) {
@@ -381,6 +382,10 @@ public class OneDotView extends FrameLayout {
 
     public void generateSkull(float x, float y) {
         mEntities.add(new Skull(new PointF(x, y)));
+    }
+
+    public void generateGreenBlood(float x, float y) {
+        mEntities.add(new GreenBlood(new PointF(x, y)));
     }
 
     public void setCallbacks(OneDotCallbacks callbacks) {

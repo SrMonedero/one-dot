@@ -34,5 +34,9 @@ public class BitmapManagerImpl implements
 
     private void init(Resources resources) {
         mBitmaps.add(BitmapFactory.decodeResource(resources, R.drawable.od__skull));
+        mBitmaps.add(BitmapFactory.decodeResource(resources, R.drawable.od__green_blood_01));
+        mBitmaps.add(BitmapFactory.decodeResource(resources, R.drawable.od__green_blood_02));
+        mBitmaps.add(BitmapFactory.decodeResource(resources, R.drawable.od__green_blood_03));
+        mBitmaps.add(BitmapFactory.decodeResource(resources, R.drawable.od__green_blood_04));
     }
 }

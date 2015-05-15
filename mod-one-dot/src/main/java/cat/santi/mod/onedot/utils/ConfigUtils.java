@@ -44,8 +44,8 @@ public class ConfigUtils {
     // Skull
 
     public static final int ALPHA_MAX = 255;
-    public static final int ALPHA_DECAY_DELTA = 10;
-    public static final int IMAGE_SIZE = 50;
+    public static final int ALPHA_DECAY_DELTA = 1;
+    public static final int IMAGE_SIZE = 100;
 
     // Movement
 
